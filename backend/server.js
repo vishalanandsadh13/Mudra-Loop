@@ -5,6 +5,7 @@ const path = require("path");
 const app = express();
 const connectDB = require("./Config/db");
 const authRoutes = require("./Routes/AuthRoutes");
+const incomeRoutes = require("./Routes/IncomeRoutes");
 
 // Middleware
 app.use(cors({ origin: process.env.CLIENT_URL || "*",
@@ -21,6 +22,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
+
+//income
+app.use("/api/v1/income", incomeRoutes);
 
 
 const PORT = process.env.PORT || 5000;
