@@ -30,6 +30,7 @@ exports.addIncome = async (req, res) => {
         }   
 }
 
+
 exports.getAllIncome = async (req, res) => {
  const userId = req.user._id;
     try {
