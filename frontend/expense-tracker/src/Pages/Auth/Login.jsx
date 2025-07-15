@@ -9,6 +9,9 @@ import {
 } from "react-icons/fa";
 // import { useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../Utils/Helper"; // Importing the email validation function
+import axiosInstance from "../../Utils/axiosInstance";
+import {API_PATHS} from "../../Utils/apiPath"; 
+import { useNavigate } from "react-router-dom"; // Importing useNavigate for navigation
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -18,7 +21,7 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   // const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  // const navigate = useNavigate();
+   const navigate = useNavigate();
   const handleSignUpClick = () => {
     setIsRightPanelActive(true);
     setError(null); // Clear any previous error messages
@@ -60,6 +63,26 @@ const Login = () => {
     setError("");
 
     // Simulate an API call for login
+
+    try {     
+      const response  = await axiosInstance.post(API_PATHS.Auth.LOGIN, {
+        email,
+        password, 
+      });
+      const { token} = response.data;
+      if (token) {
+        localStorage.setItem("token", token); // Store the token in local storage
+        // navigate to dashboard or home page after successful login
+        navigate("/dashboard"); // Assuming you have a route for the dashboard
+      }
+    }catch (error) {
+      if(error.response && error.response.status === 401) {
+        setError(error.response.data.message || "Invalid email or password");
+      }else {
+        setError("An error occurred while logging in. Please try again later.");
+      }
+    }
+    
   };
 
   // Handle sign-up form submission

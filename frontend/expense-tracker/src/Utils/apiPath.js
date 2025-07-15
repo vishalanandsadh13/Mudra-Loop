@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000';
+export const BASE_URL = "http://localhost:8000";
 
 const API_PATHS = {
   Auth: {
@@ -22,3 +22,6 @@ const API_PATHS = {
     DOWNLOAD_EXPENSE: "api/v1/expense/downloadexcel"
   },
 }
+
+export default BASE_URL;
+export { API_PATHS };
