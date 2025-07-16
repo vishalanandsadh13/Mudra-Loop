@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useContext, useState } from "react";
 import AuthLayout from "../../Components/Layouts/AuthLayout";
 import "./AuthForm.css"; // CSS from your original file
 import {
@@ -6,27 +6,33 @@ import {
   FaGooglePlusG,
   FaLinkedinIn,
   FaHeart,
+  FaTrophy,
 } from "react-icons/fa";
 // import { useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../Utils/Helper"; // Importing the email validation function
 import axiosInstance from "../../Utils/axiosInstance";
 import {API_PATHS} from "../../Utils/apiPath"; 
 import { useNavigate } from "react-router-dom"; // Importing useNavigate for navigation
+import { UserContext } from "../../Context/UserContext";
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   // const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const { updateUser } = useContext(UserContext);
    const navigate = useNavigate();
+
+  // Function to handle the click on "Sign Up" or "Sign In" buttons
   const handleSignUpClick = () => {
     setIsRightPanelActive(true);
     setError(null); // Clear any previous error messages
     // Reset form fields
-    setName("");
+    setFullName("");
     setEmail("");
     setPassword("");
     setConfirmPassword("");
@@ -38,7 +44,7 @@ const Login = () => {
     // Reset form fields
     setEmail("");
     setPassword("");
-    setName("");
+    setFullName("");
     setConfirmPassword("");
   };
 
@@ -69,10 +75,11 @@ const Login = () => {
         email,
         password, 
       });
-      const { token} = response.data;
+      const { token, user} = response.data;
       if (token) {
         localStorage.setItem("token", token); // Store the token in local storage
         // navigate to dashboard or home page after successful login
+        updateUser(user); // Update user context with the logged-in user data
         navigate("/dashboard"); // Assuming you have a route for the dashboard
       }
     }catch (error) {
@@ -88,7 +95,8 @@ const Login = () => {
   // Handle sign-up form submission
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (!name || !email || !password || !confirmPassword) {
+
+    if (!fullName || !email || !password || !confirmPassword) {
       setError("Please fill in all fields");
       return;
     }
@@ -108,6 +116,27 @@ const Login = () => {
     }
     setError("");
     // Simulate an API call for sign-up
+
+    try{
+      const response = await axiosInstance.post(API_PATHS.Auth.REGISTER, {
+        fullName,
+        email,
+        password,
+      });
+      const { token, user } = response.data;
+      if (token) {
+        localStorage.setItem("token", token); // Store the token in local storage
+        // navigate to dashboard or home page after successful sign-up
+        updateUser(user); // Update user context with the signed-up user data
+        navigate("/dashboard"); // Assuming you have a route for the dashboard
+      } 
+    }catch (error) {
+      if(error.response && error.response.status === 400) {
+        setError(error.response.data.message || "Sign up failed. Please try again.");
+      }else {
+        setError("An error occurred while signing up. Please try again later.");
+      }
+    }
   };
 
   return (
@@ -139,8 +168,8 @@ const Login = () => {
                 <input
                   type="text"
                   placeholder="Name"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
+                  onChange={(e) => setFullName(e.target.value)}
+                  value={fullName}
                 />
                 <input
                   type="email"
