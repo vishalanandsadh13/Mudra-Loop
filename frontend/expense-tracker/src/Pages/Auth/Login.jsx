@@ -13,7 +13,7 @@ import { validateEmail, validatePassword } from "../../Utils/Helper"; // Importi
 import axiosInstance from "../../Utils/axiosInstance";
 import {API_PATHS} from "../../Utils/apiPath"; 
 import { useNavigate } from "react-router-dom"; // Importing useNavigate for navigation
-import { UserContext } from "../../Context/UserContext";
+import { userContext } from "../../Context/userContext";
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -24,7 +24,7 @@ const Login = () => {
   // const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { updateUser } = useContext(UserContext);
+  const { updateUser } = useContext(userContext);
    const navigate = useNavigate();
 
   // Function to handle the click on "Sign Up" or "Sign In" buttons
@@ -79,6 +79,7 @@ const Login = () => {
       if (token) {
         localStorage.setItem("token", token); // Store the token in local storage
         // navigate to dashboard or home page after successful login
+        console.log("userLogin pr", response);
         updateUser(user); // Update user context with the logged-in user data
         navigate("/dashboard"); // Assuming you have a route for the dashboard
       }

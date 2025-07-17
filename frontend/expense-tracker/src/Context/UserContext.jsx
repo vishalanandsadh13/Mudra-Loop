@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { createContext } from "react";
 
-export const UserContext = createContext()
+// eslint-disable-next-line react-refresh/only-export-components
+export const userContext = createContext()
 
 
 const UserProvider = ({ children }) => {
@@ -16,7 +17,7 @@ const UserProvider = ({ children }) => {
     setUser(null);
   };
   return (
-    <UserContext.Provider
+    <userContext.Provider
       value={{
         user,
         updateUser,
@@ -24,7 +25,7 @@ const UserProvider = ({ children }) => {
       }}
     >
       {children}
-    </UserContext.Provider>
+    </userContext.Provider>
   );
 };
 
