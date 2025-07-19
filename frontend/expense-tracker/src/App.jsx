@@ -10,6 +10,7 @@ import Home from "./Pages/Dashboard/Home";
 import Expense from "./Pages/Dashboard/Expense";
 import Income from "./Pages/Dashboard/Income";
 import UserProvider from "./Context/userContext";
+import './index.css'
 
 const App = () => {
   return (

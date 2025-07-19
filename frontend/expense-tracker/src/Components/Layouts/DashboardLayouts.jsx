@@ -11,7 +11,7 @@ const DashboardLayouts = ({children, activeMenu}) => {
       <Navbar activeMenu={activeMenu}/>
       {user && (
       <div className="flex">
-        <div className="max-[1080px]">
+        <div className="">
              <SideMenu activeMenu={activeMenu}/>
         </div>
          <div className="grow mx-5">

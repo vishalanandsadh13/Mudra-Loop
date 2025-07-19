@@ -191,7 +191,7 @@ const Login = () => {
                   value={confirmPassword}
                 />
                 {error && <p className="errorText">{error}</p>}
-                <button type="button" onClick={handleSignUp}>
+                <button className="authForm" type="button" onClick={handleSignUp}>
                   Sign Up
                 </button>
               </form>
@@ -230,7 +230,7 @@ const Login = () => {
                 />
                 {error && <p className="errorText">{error}</p>}
                 <a href="#">Forgot your password?</a>
-                <button type="button" onClick={handleLogin}>
+                <button className="authForm" type="button" onClick={handleLogin}>
                   Sign In
                 </button>
               </form>

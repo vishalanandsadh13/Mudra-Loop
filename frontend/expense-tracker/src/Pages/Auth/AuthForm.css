@@ -4,7 +4,7 @@
 * {
 	box-sizing: border-box;
 }
-
+/* 
 body {
 	background: #f6f5f7;
 	display: flex;
@@ -14,7 +14,7 @@ body {
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
 	margin: -20px 0 50px;
-}
+} */
 
 h1 {
 	font-weight: bold;
@@ -44,7 +44,7 @@ a {
 	margin: 15px 0;
 }
 
-button {
+.authForm button {
 	border-radius: 20px;
 	border: 1px solid #FF4B2B;
 	background-color: #FF4B2B;
