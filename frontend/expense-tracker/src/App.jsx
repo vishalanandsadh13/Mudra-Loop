@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,8 +9,15 @@ import Login from "./Pages/Auth/Login";
 import Home from "./Pages/Dashboard/Home";
 import Expense from "./Pages/Dashboard/Expense";
 import Income from "./Pages/Dashboard/Income";
-import UserProvider from "./Context/userContext";
+import UserProvider, { UserContext } from "./Context/UserContext";
 import './index.css'
+
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useContext(UserContext);
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <Navigate to="/login" replace />;
+  return children;
+};
 
 const App = () => {
   return (
@@ -18,11 +25,11 @@ const App = () => {
       <div>
         <Router>
           <Routes>
-            <Route path="/" element={<Root />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/dashboard" element={<Home />}></Route>
-            <Route path="/Income" element={<Income />}></Route>
-            <Route path="/Expense" element={<Expense />}></Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/Income" element={<ProtectedRoute><Income /></ProtectedRoute>} />
+            <Route path="/Expense" element={<ProtectedRoute><Expense /></ProtectedRoute>} />
+            <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>
         </Router>
       </div>
@@ -31,15 +38,3 @@ const App = () => {
 };
 
 export default App;
-
-const Root = () => {
-  // Check if the user is authenticated
-  const isAuthenticated = !!localStorage.getItem("token");
-
-  //Redirect to dashboard if authenticated, otherwise redirect to login
-  return isAuthenticated ? (
-    <Navigate to="/dashboard" />
-  ) : (
-    <Navigate to="/login" />
-  );
-};

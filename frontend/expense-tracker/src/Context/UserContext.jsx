@@ -3,7 +3,7 @@ import { createContext } from "react";
 import axiosInstance from "../Utils/axiosInstance";
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const userContext = createContext();
+export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -20,8 +20,12 @@ const UserProvider = ({ children }) => {
           setUser(res.data.user || res.data); // Adjust based on your backend response
           setLoading(false);
         })
-        .catch(() => {
-          setUser(null);
+        .catch((err) => {
+          if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+            setUser(null);
+          } else {
+            alert("Cannot connect to server. Please try again later.");
+          }
           setLoading(false);
         });
     } else {
@@ -33,9 +37,9 @@ const UserProvider = ({ children }) => {
   const clearUser = () => setUser(null);
 
   return (
-    <userContext.Provider value={{ user, updateUser, clearUser, loading }}>
+    <UserContext.Provider value={{ user, updateUser, clearUser, loading }}>
       {children}
-    </userContext.Provider>
+    </UserContext.Provider>
   );
 };
 

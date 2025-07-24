@@ -12,8 +12,7 @@ import {
 import { validateEmail, validatePassword } from "../../Utils/Helper"; // Importing the email validation function
 import axiosInstance from "../../Utils/axiosInstance";
 import {API_PATHS} from "../../Utils/apiPath"; 
-import { useNavigate } from "react-router-dom"; // Importing useNavigate for navigation
-import { userContext } from "../../Context/userContext";
+import { UserContext } from "../../Context/UserContext";
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -24,8 +23,7 @@ const Login = () => {
   // const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { updateUser } = useContext(userContext);
-   const navigate = useNavigate();
+  const { updateUser } = useContext(UserContext);
 
   // Function to handle the click on "Sign Up" or "Sign In" buttons
   const handleSignUpClick = () => {
@@ -77,11 +75,9 @@ const Login = () => {
       });
       const { token, user} = response.data;
       if (token) {
-        localStorage.setItem("token", token); // Store the token in local storage
-        // navigate to dashboard or home page after successful login
-        console.log("userLogin pr", response);
-        updateUser(user); // Update user context with the logged-in user data
-        navigate("/dashboard"); // Assuming you have a route for the dashboard
+        localStorage.setItem("token", token);
+        updateUser(user);
+        window.location.href = "/dashboard"; // Force reload to re-init context
       }
     }catch (error) {
       if(error.response && error.response.status === 401) {
@@ -127,9 +123,8 @@ const Login = () => {
       const { token, user } = response.data;
       if (token) {
         localStorage.setItem("token", token); // Store the token in local storage
-        // navigate to dashboard or home page after successful sign-up
         updateUser(user); // Update user context with the signed-up user data
-        navigate("/dashboard"); // Assuming you have a route for the dashboard
+        window.location.href = "/dashboard"; // Force reload to re-init context
       } 
     }catch (error) {
       if(error.response && error.response.status === 400) {
