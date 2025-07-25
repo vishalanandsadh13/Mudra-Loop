@@ -17,3 +17,12 @@ export const getInitial = (name) => {
   }
   return names[0].charAt(0).toUpperCase() + names[1].charAt(0).toUpperCase();
 }
+
+export const addThousandsSeparator = (value) => {
+   if(value == null || isNaN(value)) return '';
+
+   const [integerPart, decimalPart] = value.toString().split('.');
+   const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+   return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+}

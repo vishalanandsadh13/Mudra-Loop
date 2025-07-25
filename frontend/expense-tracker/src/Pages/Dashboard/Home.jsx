@@ -1,11 +1,15 @@
-import React, { useContext } from 'react'
-import DashboardLayouts from '../../Components/Layouts/DashboardLayouts'
-import './Dashboard.css'
-import { useNavigate } from 'react-router-dom'
-import axiosInstance from '../../Utils/axiosInstance'
-import { API_PATHS } from '../../Utils/apiPath';
-import { useEffect } from 'react'
-import { UserContext } from '../../Context/UserContext';
+import React, { useContext } from "react";
+import DashboardLayouts from "../../Components/Layouts/DashboardLayouts";
+import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../Utils/axiosInstance";
+import { API_PATHS } from "../../Utils/apiPath";
+import { useEffect } from "react";
+import { UserContext } from "../../Context/UserContext";
+import InfoCard from "../../Components/Cards/InfoCard";
+import { addThousandsSeparator } from "../../Utils/Helper";
+import { IoMdCard } from "react-icons/io";
+import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,18 +21,19 @@ const Home = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const response = await axiosInstance.get(API_PATHS.DASHBOARD.GET_DATA)
+      const response = await axiosInstance.get(API_PATHS.DASHBOARD.GET_DATA);
       if (response.data) {
         setDashboardData(response.data);
-      } 
-    }
-    catch (error) {
+      }
+    } catch (error) {
       console.error("Failed to fetch dashboard data", error);
-      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
         navigate("/login");
       }
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -44,13 +49,31 @@ const Home = () => {
   return (
     <DashboardLayouts activeMenu="Dashboard">
       <div className="my-5 mx-auto">
-        <h2>Home</h2>
-        {dashboardData && (
-          <pre>{JSON.stringify(dashboardData, null, 2)}</pre>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <InfoCard
+          icon={<IoMdCard />}
+          label="Total Balance"
+          value={addThousandsSeparator(dashboardData?.totalbalance)}
+          color="bg-primary"
+        />
+
+        <InfoCard
+          icon={<LuWalletMinimal />}
+          label="Total Income"
+          value={addThousandsSeparator(dashboardData?.totalIncome)}
+          color="bg-primary"
+        />
+
+        <InfoCard
+          icon={<LuHandCoins />}
+          label="TotalExpense"
+          value={addThousandsSeparator(dashboardData?.totalExpense)}
+          color="bg-primary"
+        />
+        </div>
       </div>
     </DashboardLayouts>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
