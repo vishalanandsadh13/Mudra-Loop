@@ -10,7 +10,7 @@ import InfoCard from "../../Components/Cards/InfoCard";
 import { addThousandsSeparator } from "../../Utils/Helper";
 import { IoMdCard } from "react-icons/io";
 import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
-
+import RecentTransactions from "../../Components/Dashboard/RecentTransactions";
 const Home = () => {
   const navigate = useNavigate();
   const [dashboardData, setDashboardData] = React.useState(null);
@@ -61,15 +61,21 @@ const Home = () => {
           icon={<LuWalletMinimal />}
           label="Total Income"
           value={addThousandsSeparator(dashboardData?.totalIncome)}
-          color="bg-primary"
+          color="bg-orange-500"
         />
 
         <InfoCard
           icon={<LuHandCoins />}
           label="TotalExpense"
           value={addThousandsSeparator(dashboardData?.totalExpense)}
-          color="bg-primary"
+          color="bg-red-500"
         />
+        </div>
+        <div className="grid grid-cols-1 md:grid-col-2 gap-6 mt-6">
+        <RecentTransactions
+            transactions={dashboardData?.lastTransactions}
+            onSeeMore={() => navigate("/expense")}
+            />
         </div>
       </div>
     </DashboardLayouts>
