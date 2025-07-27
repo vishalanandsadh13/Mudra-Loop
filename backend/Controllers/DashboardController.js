@@ -35,13 +35,13 @@ exports.getDashboardData = async (req, res) => {
 
         //get expense transactions in the last 30 days
         const last30DaysExpenseTransactions = await Expense.find({
-            userId: userObjectId,
+            userId,
             date: { $gte: new Date(Date.now() - 30*24*60*60*1000) }
         }).sort({ date: -1 });      
         //get total expense for last 30 days
-        const ExpenseLast30Days = last30DaysExpenseTransactions.reduce((sum, transaction) => {
-            return sum + transaction.amount;
-        }, 0);      
+        const ExpenseLast30Days = last30DaysExpenseTransactions.reduce((sum, transaction) => 
+            sum + transaction.amount
+         , 0);      
 
 
         //fetch last 5 transactions for income and expense
@@ -66,8 +66,14 @@ exports.getDashboardData = async (req, res) => {
             totalbalance: (totalIncome[0]?.totalIncome || 0) - (totalExpense[0]?.totalExpense || 0),
             totalIncome: totalIncome[0]?.totalIncome || 0,
             totalExpense: totalExpense[0]?.totalExpense || 0,
-            IncomeLast60Days,       
-            ExpenseLast30Days,
+            IncomeLast60Days: {
+                transactions: last60DaysIncomeTransactions,
+                total: IncomeLast60Days
+            },       
+            ExpenseLast30Days: {
+                transactions: last30DaysExpenseTransactions,
+                total: ExpenseLast30Days
+            },
             lastTransactions: lastTransactions.slice(0, 5) // Take the last 5
         });       
     } catch (error) {

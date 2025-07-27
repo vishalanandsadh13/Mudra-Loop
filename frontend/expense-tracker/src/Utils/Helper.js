@@ -26,3 +26,12 @@ export const addThousandsSeparator = (value) => {
 
    return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
 }
+
+export const prepareExpenseChartData = (data = []) => {
+  console.log("prepareExpenseChartData", data)
+  const chartData = data.map((item) => ({
+    category: item?.category,
+    amount: item?.amount,
+  }))
+  return chartData;
+}
