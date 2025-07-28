@@ -22,7 +22,7 @@ exports.getDashboardData = async (req, res) => {
 
         // get income transactions int he last 60 days
         const last60DaysIncomeTransactions = await Income.find({
-            userId: userObjectId,
+            userId,
             date: { $gte: new Date(Date.now() - 60*24*60*60*1000) }
         }).sort({ date: -1 });  
 
@@ -46,18 +46,18 @@ exports.getDashboardData = async (req, res) => {
 
         //fetch last 5 transactions for income and expense
         const lastTransactions = [
-            ...((await Income.find({ userId: userObjectId }).sort({ date: -1 }).limit(5)).map(
+            ...(await Income.find({ userId: userObjectId }).sort({ date: -1 }).limit(5)).map(
                 (txn) => ({
                     ...txn.toObject(),
                     type: "income"
                 })  
-            )),
-            ...((await Expense.find({ userId: userObjectId }).sort({ date: -1 }).limit(5)).map(
+            ),
+            ...(await Expense.find({ userId: userObjectId }).sort({ date: -1 }).limit(5)).map(
                 (txn) => ({
                     ...txn.toObject(),
                     type: "expense"
                 })      
-            ))
+            )
         ].sort((a,b)=> b.date - a.date);
          // Sort by date and take the last 5 transactions
 
@@ -66,15 +66,15 @@ exports.getDashboardData = async (req, res) => {
             totalbalance: (totalIncome[0]?.totalIncome || 0) - (totalExpense[0]?.totalExpense || 0),
             totalIncome: totalIncome[0]?.totalIncome || 0,
             totalExpense: totalExpense[0]?.totalExpense || 0,
-            IncomeLast60Days: {
+            last60DaysIncome: {
                 transactions: last60DaysIncomeTransactions,
                 total: IncomeLast60Days
             },       
-            ExpenseLast30Days: {
+            last30DaysExpense: {
                 transactions: last30DaysExpenseTransactions,
                 total: ExpenseLast30Days
             },
-            lastTransactions: lastTransactions.slice(0, 5) // Take the last 5
+            recentTransactions: lastTransactions.slice(0, 5) // Take the last 5
         });       
     } catch (error) {
         console.error("Error fetching dashboard data:", error);

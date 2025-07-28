@@ -12,9 +12,10 @@ import {
 } from 'recharts'
 
 const CustomBarChart = ({data}) => {
+    console.log("Bar chart data:", data);
     const getBarColor = (index) => {
-        return index % 2 === 0 ? '#875CF5' : '#cfbefb'
-    }
+        return index % 2 === 0 ? "#875cf5" : '#cfbefb';
+    };
 
     const CustomTooltip = ({active, payload,}) => {
         if(active && payload && payload.length) {
@@ -29,7 +30,7 @@ const CustomBarChart = ({data}) => {
                        </span>
                     </p>
                 </div>
-            )
+            );
         }
         return null;
     }
@@ -38,10 +39,19 @@ const CustomBarChart = ({data}) => {
     <div className='bg-white mt-6'>
         <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data}>
-                <CartesianGrid strokeDasharray="none" />
-                <XAxis dataKey="month" tick={{fontSize: 12, fill: '#555'}} stroke='none' />
-                <YAxis tick={{fontSize: 12, fill: '#555'}} stroke='nones' />
+                <CartesianGrid stroke="none" />
+
+                <XAxis dataKey="month"
+                 tick={{fontSize: 12, fill: '#555'}}
+                  stroke='none' 
+                  />
+
+                <YAxis
+                 tick={{fontSize: 12, fill: '#555'}}
+                  stroke='none' />
+
                 <Tooltip content={CustomTooltip}/>
+                 
                 <Bar 
                 dataKey="amount" 
                 fill="#FF8042" 

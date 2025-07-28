@@ -29,9 +29,20 @@ export const addThousandsSeparator = (value) => {
 
 export const prepareExpenseChartData = (data = []) => {
   console.log("prepareExpenseChartData", data)
-  const chartData = data.map((item) => ({
-    category: item?.category,
-    amount: item?.amount,
-  }))
+  // Group by month and sum amounts
+  const monthMap = {};
+  data.forEach((item) => {
+    if (!item.date) return;
+    const dateObj = new Date(item.date);
+    const month = dateObj.toLocaleString('default', { month: 'short' });
+    if (!monthMap[month]) {
+      monthMap[month] = 0;
+    }
+    monthMap[month] += item.amount || 0;
+  });
+  const chartData = Object.entries(monthMap).map(([month, amount]) => ({
+    month,
+    amount
+  }));
   return chartData;
 }
