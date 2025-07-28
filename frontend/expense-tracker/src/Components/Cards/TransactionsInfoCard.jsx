@@ -17,10 +17,10 @@ const TransactionsInfoCard = ({
     }
     console.log("type", type)
   return (
-    <div className="group relative flex items-center gap-4 mt-2 p-3 rounded-lg hover:bg-gray-100/60">
+    <div className="group relative flex items-center gap-4 mt-1 p-2 rounded-lg hover:bg-gray-100/60">
       <div className="w-12 h-12 flex items-center justify-center text-xl text-gray-800 bg-gray-300 rounded-full">
         {icon ? (
-          <img src={icon} alt={title} className="w-6 h-6" />
+          <img src={icon} alt={title} className="w-4 h-4" />
         ) : (
           <div className="">
             <LuUtensils />
@@ -29,8 +29,8 @@ const TransactionsInfoCard = ({
       </div>
       <div className="flex-1 flex items-center justify-between">
         <div>
-          <p className="text-sm text-gray-700 font-medium">{title}</p>
-          <p className="text-xs text-gray-400 mt-1">{date}</p>
+          <span className="text-sm text-gray-700 font-semibold">{title}</span> <br/>
+          <span  className="text-xs text-gray-400 mt-1">{date}</span>
         </div>
         <div className="flex items-center gap-2">
           {!hideDeleteBtn && (

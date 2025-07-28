@@ -13,7 +13,7 @@ const ExpenseTransactions = ({transactions, onSeeMore}) => {
                 See All <LuArrowRight className='text-base'/>
             </button>
         </div>
-        <div className='mt-6'>
+        <div className='mt-4'>
             {transactions?.map((expense) => (
             <TransactionsInfoCard
                 title={expense.category}

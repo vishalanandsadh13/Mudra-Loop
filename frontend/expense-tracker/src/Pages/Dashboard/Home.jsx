@@ -86,7 +86,7 @@ const Home = () => {
             totalExpense={dashboardData?.totalExpense || 0}
           /> */}
           <ExpenseTransactions
-            transactions={dashboardData?.recentTransactions}
+            transactions={dashboardData?.last30DaysExpense?.transactions}
             onSeeMore={() => navigate("/expense")}
           />
           <Last30DaysTransactions
