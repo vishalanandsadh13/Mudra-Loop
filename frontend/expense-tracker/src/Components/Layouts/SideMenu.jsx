@@ -5,11 +5,8 @@ import { useNavigate } from "react-router-dom";
 import CharAvatar from "../Cards/CharAvatar";
 
 const SideMenu = ({ activeMenu }) => {
-  console.log("rendered SideMenu");
-  console.log("sidemenu", SIDE_MENU_DATA);
   const { user, clearUser } = useContext(UserContext);
   const navigate = useNavigate();
-  console.log("user", user);
 
   const handleLogout = () => {
     clearUser();

@@ -28,7 +28,6 @@ export const addThousandsSeparator = (value) => {
 }
 
 export const prepareExpenseChartData = (data = []) => {
-  console.log("prepareExpenseChartData", data)
   // Group by month and sum amounts
   const monthMap = {};
   data.forEach((item) => {
