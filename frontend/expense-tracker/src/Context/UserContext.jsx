@@ -21,10 +21,13 @@ const UserProvider = ({ children }) => {
           setLoading(false);
         })
         .catch((err) => {
+          console.error("Error fetching user data:", err);
           if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+            // Clear invalid token
+            localStorage.removeItem("token");
             setUser(null);
           } else {
-            alert("Cannot connect to server. Please try again later.");
+            console.error("Cannot connect to server. Please try again later.");
           }
           setLoading(false);
         });
@@ -34,7 +37,10 @@ const UserProvider = ({ children }) => {
   }, []);
 
   const updateUser = (userData) => setUser(userData);
-  const clearUser = () => setUser(null);
+  const clearUser = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
 
   return (
     <UserContext.Provider value={{ user, updateUser, clearUser, loading }}>

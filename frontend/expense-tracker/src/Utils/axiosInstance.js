@@ -35,11 +35,10 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // Handle response error
     if (error.response && error.response.status === 401) {
-      // Handle unauthorized access, e.g., redirect to login
-
-      console.error('Unauthorized access - redirecting to login');
-      window.location.href = '/login';  // Redirect to login page
-      // You can add logic to redirect to the login page here
+      // Handle unauthorized access - let components handle this
+      console.error('Unauthorized access - token may be invalid');
+      // Remove the automatic redirect to prevent infinite loops
+      // Components should handle this by checking user state
     }else if (error.response && error.response.status === 403) {
       // Handle forbidden access
       console.error('Forbidden access - you do not have permission to perform this action');
