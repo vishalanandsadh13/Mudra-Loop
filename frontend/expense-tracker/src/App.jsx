@@ -11,6 +11,7 @@ import Expense from "./Pages/Dashboard/Expense";
 import Income from "./Pages/Dashboard/Income";
 import UserProvider, { UserContext } from "./Context/UserContext";
 import './index.css'
+import { Toaster } from "react-hot-toast";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useContext(UserContext);
@@ -33,6 +34,16 @@ const App = () => {
           </Routes>
         </Router>
       </div>
+      <Toaster 
+      position="top-right"
+      toastOptions={{
+        duration: 2000,
+        style: {
+          fontSize: "13px",
+        },
+        className: "",
+      }}
+      />
     </UserProvider>
   );
 };
