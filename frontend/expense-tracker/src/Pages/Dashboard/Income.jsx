@@ -72,6 +72,9 @@ const Income = () => {
               onAddIncome={() => setOpenAddIncomeModal(true)}
               />
            </div>
+           <IncomeList
+           transactions={IncomeData}
+           />
         </div>
         <Modal
         isOpen={openAddIncomeModal}
