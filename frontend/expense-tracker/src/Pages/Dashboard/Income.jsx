@@ -6,11 +6,14 @@ import IncomeOverview from '../../Components/Income/IncomeOverview'
 import Modal from '../../Components/Modal'
 import AddIncomeForm from '../../Components/Income/AddIncomeForm'
 import toast from 'react-hot-toast'
+import IncomeList from '../../Components/Income/IncomeList'
+import DeleteAlert from '../../Components/DeleteAlert'
 
 const Income = () => {
   const [openAddIncomeModal, setOpenAddIncomeModal] = useState(false)
   const [IncomeData, setIncomeData] = useState([])
   const [loading, setLoading] = useState(false)
+  const [openDeleteAlert, setOpenDeleteAlert] = useState({show: false, data: null})
 
 
   const fetchIncomeData = async () => {
@@ -58,6 +61,10 @@ const Income = () => {
     }
   }
 
+  const deleteIncome = async (id) => {};
+
+  const handleDownloadIncomeDetails = async () => {};
+
   useEffect(() => {
     fetchIncomeData()
   }, [])
@@ -74,6 +81,10 @@ const Income = () => {
            </div>
            <IncomeList
            transactions={IncomeData}
+           onDelete={(id) => {
+            setOpenDeleteAlert({show: true, data: id})
+           }}
+           onDownload={handleDownloadIncomeDetails}
            />
         </div>
         <Modal
@@ -83,6 +94,16 @@ const Income = () => {
         >
           <AddIncomeForm
              onAddIncome={handleAddIncome}
+          />
+        </Modal>
+        <Modal
+        isOpen={openDeleteAlert.show}
+        onClose={() => setOpenDeleteAlert({show: false, data: null})}
+        title="Delete Income"
+        >
+          <DeleteAlert
+          content="Are you sure you want to delete this income?"
+          onDelete={() => deleteIncome(openDeleteAlert.data)}
           />
         </Modal>
       </div>
