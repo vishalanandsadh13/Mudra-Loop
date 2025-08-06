@@ -61,7 +61,16 @@ const Income = () => {
     }
   }
 
-  const deleteIncome = async (id) => {};
+  const deleteIncome = async (id) => {
+    try {
+      await axiosInstance.delete(API_PATHS.INCOME.DELETE_INCOME(id))
+      setOpenDeleteAlert({show: false, data: null})
+      toast.success("Income deleted successfully")
+      fetchIncomeData();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error deleting income")
+    }
+  };
 
   const handleDownloadIncomeDetails = async () => {};
 
