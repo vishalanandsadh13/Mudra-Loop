@@ -14,6 +14,7 @@ const Income = () => {
   const [IncomeData, setIncomeData] = useState([])
   const [loading, setLoading] = useState(false)
   const [openDeleteAlert, setOpenDeleteAlert] = useState({show: false, data: null})
+  const [downloading, setDownloading] = useState(false)
 
 
   const fetchIncomeData = async () => {
@@ -72,7 +73,39 @@ const Income = () => {
     }
   };
 
-  const handleDownloadIncomeDetails = async () => {};
+  const handleDownloadIncomeDetails = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    try {
+      const response = await axiosInstance.get(API_PATHS.INCOME.DOWNLOAD_INCOME, {
+        responseType: 'blob',
+      });
+
+      // Create blob with proper MIME type for Excel
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'income_details.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      
+      // Clean up
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      toast.success('Income details downloaded successfully');
+    } catch (error) {
+      console.error('Download error:', error);
+      toast.error(error.response?.data?.message || "Error downloading file");
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   useEffect(() => {
     fetchIncomeData()
@@ -94,6 +127,7 @@ const Income = () => {
             setOpenDeleteAlert({show: true, data: id})
            }}
            onDownload={handleDownloadIncomeDetails}
+           downloading={downloading}
            />
         </div>
         <Modal

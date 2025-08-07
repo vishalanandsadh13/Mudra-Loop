@@ -13,7 +13,7 @@ const API_PATHS = {
     ADD_INCOME: "api/v1/income/add",
     GET_ALL_INCOME: "/api/v1/income/get",
     DELETE_INCOME: (id) => `api/v1/income/delete/${id}`,
-    DOWNLOAD_EXPENSE: "api/v1/income/downloadexcel"
+    DOWNLOAD_INCOME: "api/v1/income/downloadexcel"
   },
   EXPENSE: {
     ADD_EXPENSE: "api/v1/expense/add",

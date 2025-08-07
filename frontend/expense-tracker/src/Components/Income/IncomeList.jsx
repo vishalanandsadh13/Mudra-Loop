@@ -3,14 +3,18 @@ import { LuDownload } from "react-icons/lu";
 import TransactionsInfoCard from "../Cards/TransactionsInfoCard";
 import moment from "moment";    
 
-const IncomeList = ({ transactions, onDelete, onDownload }) => {
+const IncomeList = ({ transactions, onDelete, onDownload, downloading = false }) => {
   return (
     <div className="card">
       <div className="flex items-center justify-between">
         <h5 className="text-lg">Income Sources</h5>
-        <button className="card-btn" onClick={onDownload}>
+        <button 
+          className="card-btn" 
+          onClick={onDownload}
+          disabled={downloading}
+        >
             <LuDownload className="text-base" />
-            Download
+            {downloading ? 'Downloading...' : 'Download'}
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2"> 

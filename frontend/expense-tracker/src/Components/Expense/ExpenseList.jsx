@@ -3,26 +3,30 @@ import { LuDownload } from "react-icons/lu";
 import TransactionsInfoCard from "../Cards/TransactionsInfoCard";
 import moment from "moment";    
 
-const ExpenseList = ({ transactions, onDelete, onDownload }) => {
+const ExpenseList = ({ transactions, onDelete, onDownload, downloading = false }) => {
   return (
     <div className="card">
       <div className="flex items-center justify-between">
-        <h5 className="text-lg">Income Sources</h5>
-        <button className="card-btn" onClick={onDownload}>
+        <h5 className="text-lg">Expense Categories</h5>
+        <button 
+          className="card-btn" 
+          onClick={onDownload}
+          disabled={downloading}
+        >
             <LuDownload className="text-base" />
-            Download
+            {downloading ? 'Downloading...' : 'Download'}
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2"> 
-        {transactions.map((income) => (
+        {transactions.map((expense) => (
             <TransactionsInfoCard
-            key={income._id}
-            title={income.source}
-            icon = {income.icon}
-            date={moment(income.date).format("DD MMM YYYY") }
-            amount={income.amount}
-            type="income"   
-            onDelete={() => onDelete(income._id)}
+            key={expense._id}
+            title={expense.category}
+            icon = {expense.icon}
+            date={moment(expense.date).format("DD MMM YYYY") }
+            amount={expense.amount}
+            type="expense"   
+            onDelete={() => onDelete(expense._id)}
             />
         ))}
 

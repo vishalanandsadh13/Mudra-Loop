@@ -57,16 +57,28 @@ exports.downloadExpenseExcel = async (req, res) => {
         const expenses = await Expense.find({ userId }).sort({ date: -1 });
 
         const data = expenses.map(expense => ({
-            category: expense.category,
+            Category: expense.category,
             Amount: expense.amount,
-            Date: expense.date, // Format date as YYYY-MM-DD
+            Date: new Date(expense.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }),
         }));
         
-        const wb= xlsx.utils.book_new();
+        const wb = xlsx.utils.book_new();
         const ws = xlsx.utils.json_to_sheet(data);
         xlsx.utils.book_append_sheet(wb, ws, "Expenses");
-        xlsx.writeFile(wb, "ExpensesDetails.xlsx");
-        res.download('ExpensesDetails.xlsx')
+        
+        // Generate buffer instead of writing to file
+        const buffer = xlsx.write(wb, { type: 'buffer', bookType: 'xlsx' });
+        
+        // Set proper headers for Excel download
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=expense_details.xlsx');
+        res.setHeader('Content-Length', buffer.length);
+        
+        res.send(buffer);
     } catch (error) {
         console.error("Error downloading expenses as Excel:", error);
         res.status(500).json({ message: "Internal server error" });

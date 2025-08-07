@@ -1,4 +1,3 @@
-const xlsx = require("xlsx");
 const XLSX = require("xlsx");
 const Income = require("../Models/Income");
 
@@ -61,22 +60,30 @@ exports.downloadIncomeExcel = async (req, res) => {
         if (incomes.length === 0) {
             return res.status(404).json({ message: "No income data found for download" });
         }
+        
         const excelData = incomes.map(income => ({
             Source: income.source,
             Amount: income.amount,
-            Date: income.date.toISOString().split('T')[0], // Format date as YYYY-MM-DD
+            Date: new Date(income.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }),
         }));
         
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.json_to_sheet(excelData);
-        xlsx.utils.book_append_sheet(wb, ws, "Incomes");
-        xlsx.writeFile(wb, "Income_Details.xlsx");
-        res.download("Income_Details.xlsx", (err) => {
-            if (err) {
-                console.error("Error downloading file:", err);
-                res.status(500).json({ message: "Error downloading file" });
-            }
-        });
+        XLSX.utils.book_append_sheet(wb, ws, "Incomes");
+        
+        // Generate buffer instead of writing to file
+        const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+        
+        // Set proper headers for Excel download
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=income_details.xlsx');
+        res.setHeader('Content-Length', buffer.length);
+        
+        res.send(buffer);
     } catch (error) {
         console.error("Error downloading income data as Excel:", error);
         res.status(500).json({ message: "Internal server error" });
