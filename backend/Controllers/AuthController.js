@@ -29,7 +29,6 @@ const registerUser = async (req, res) => {
             password,
         }); 
 
-        console.log("user",user);
         res.status(201).json({
             id: user._id,
             fullName: user.fullName,

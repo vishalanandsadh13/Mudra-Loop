@@ -26,9 +26,7 @@ const Expense = () => {
       const response = await axiosInstance.get(
         API_PATHS.EXPENSE.GET_ALL_EXPENSE
       );
-      console.log("API response:", response.data);
       if (response.data.expenses) {
-        console.log("Setting expense data:", response.data.expenses);
         setExpenseData(response.data.expenses);
       }
     } catch {
