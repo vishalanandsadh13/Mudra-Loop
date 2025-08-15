@@ -60,7 +60,7 @@ const Login = () => {
 
     if (!validatePassword(password)) {
       setError(
-        "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number & one special character"
+        "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number & one special character."
       );
       return;
     }
