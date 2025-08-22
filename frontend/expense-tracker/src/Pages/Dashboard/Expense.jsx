@@ -49,7 +49,7 @@ const Expense = () => {
       return;
     }
     if (!date) {
-      toast.error("Expense date is required");
+      toast.error("Expense date is required.");
       return;
     }
     try {
