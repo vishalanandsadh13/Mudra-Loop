@@ -45,7 +45,7 @@ const Expense = () => {
       return;
     }
     if (!amount || isNaN(amount) || Number(amount) <= 0) {
-      toast.error("Amount should be a valid number and greater than 0");
+      toast.error("Amount should be a valid number and greater than 0.");
       return;
     }
     if (!date) {
