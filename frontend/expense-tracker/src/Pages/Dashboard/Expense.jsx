@@ -62,7 +62,7 @@ const Expense = () => {
       toast.success("Expense added successfully");
       fetchExpenseData();
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.message || "Something went wrong.");
     }
   };
 
