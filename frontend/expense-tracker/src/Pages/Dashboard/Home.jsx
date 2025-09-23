@@ -49,6 +49,7 @@ const Home = () => {
       fetchDashboardData();
     }
   }, [user]);
+  
 
   if (loading) return <div>Loading...</div>;
 
