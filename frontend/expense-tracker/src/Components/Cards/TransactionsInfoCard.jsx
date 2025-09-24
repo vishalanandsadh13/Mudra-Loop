@@ -12,7 +12,7 @@ const TransactionsInfoCard = ({
 }) => {
     const getAmountStyle = () => {
         if(type === 'income'){
-            return 'bg-green-50 text-green-600'
+            return 'bg-green-50 text-green-500'
         }
         return 'bg-red-50 text-red-500'
     }
