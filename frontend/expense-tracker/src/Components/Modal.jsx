@@ -8,7 +8,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       <div className="relative w-full max-w-2xl p-4 max-h-auto">
         <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-600">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{title}</h3>
             <button onClick={onClose}>
               <LuX className="text-gray-400 bg-transparent hover:text-gray-900 dark:hover:text-white dark:hover:bg-gray-600 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center cursor pointer " />
             </button>
