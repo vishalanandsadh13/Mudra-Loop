@@ -37,7 +37,7 @@ const App = () => {
       <Toaster 
       position="top-right"
       toastOptions={{
-        duration: 2000,
+        duration: 3000,
         style: {
           fontSize: "13px",
         },
