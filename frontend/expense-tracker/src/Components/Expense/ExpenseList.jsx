@@ -14,7 +14,7 @@ const ExpenseList = ({ transactions, onDelete, onDownload, downloading = false }
           disabled={downloading}
         >
             <LuDownload className="text-base" />
-            {downloading ? 'Downloading......' : 'Download'}
+            {downloading ? 'Downloading...' : 'Download'}
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 "> 
